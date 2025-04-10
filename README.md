@@ -10,16 +10,13 @@ An analog graph display for the LilyGO T-Display-S3 featuring:
 ## Features
 
 - Dual operating modes selection via the KEY button:
-  - Simulation mode with random data generation
-  - Real sensor mode reading from GPIO1 (ADC1 channel 0)
+  - Simulation mode (0) with random data generation
+  - Real time sensor mode (1) reading from GPIO1 (ADC1 channel 0)
 - NTP time synchronization with automatic DST handling
 - Battery & USB voltage monitoring (whichever is connected)
 - Performance monitoring (FPS counter)
 - Min/Max/Current value tracking with timestamps
-  - Values reset via the BOOT button
-- FPS counter
-- Date and time display
-- Configurable timezone support
+  - Values can be reset via the BOOT button
 
 ## Pin Configuration
 | Function          | GPIO Pin |
