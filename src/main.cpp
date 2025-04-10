@@ -14,8 +14,8 @@ TFT_eSPI lcd = TFT_eSPI();              // main display object
 TFT_eSprite sprite = TFT_eSprite(&lcd); // sprite for double buffering
 
 // WiFi credentials - replace with your network info
-const char* wifiSSID = "YOUR_SSID"; // change to your SSID name
-const char* wifiPassword = "YOUR_PASSWORD"; // change to your password
+const char* wifiSSID = "MSI-GF75"; // change to your SSID name
+const char* wifiPassword = "Uitenhage1"; // change to your password
 
 // NTP time server configuration
 #define TIME_ZONE_OFFSET 2 // GMT+(change to your offset)
@@ -63,7 +63,6 @@ bool lastBootButtonState = HIGH;
 unsigned long lastBatteryRead = 0;
 const unsigned long BATTERY_READ_INTERVAL = 5000; // read every 5 seconds
 int batteryVoltage = 0; // in mV
-bool batteryConnected = false;
 
 // Runtime variables
 int updateCounter = 0;           // counter for periodic updates
@@ -166,16 +165,8 @@ void resetStatistics() {
 
 // Function to read battery voltage
 void readBatteryVoltage() {
-  esp_adc_cal_characteristics_t adc_chars;
-  
-  // Get the internal calibration value of the chip
-  esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
-    ADC_UNIT_1, ADC_ATTEN_DB_12, ADC_WIDTH_BIT_12, 1100, &adc_chars);
   uint32_t raw = analogRead(PIN_BAT_VOLT);
-  batteryVoltage = esp_adc_cal_raw_to_voltage(raw, &adc_chars) * 2; // voltage divider ratio (2)
-  
-  // Check if battery is connected
-  batteryConnected = (batteryVoltage > 1000); // 1000mV
+  batteryVoltage = (raw * 2 * 3.3 * 1000) / 4096;
 }
 
 /*************************************************************
@@ -265,7 +256,7 @@ void setup(void) {
   graphValues[23] = VALUE_CAP / 2;
   
   // Set ADC resolution for analog readings
-  analogReadResolution(10);
+  analogReadResolution(12);
   delay(2000);
   
   // Ready message
@@ -493,14 +484,8 @@ void loop() {
   
   // Draw additional info
   sprite.setTextColor(TFT_WHITE, TFT_BLACK);
-  // Battery info
-  if (batteryConnected) {
-    sprite.drawString("BAT:" + String(batteryVoltage) + "mV", GRAPH_X_POSITION + 150, 16);
-  } else {
-    sprite.drawString("BAT: N/C", GRAPH_X_POSITION + 150, 16);
-  }
-  // Display mode
-  sprite.drawString("MODE:" + String(displayMode), GRAPH_X_POSITION + 150, 26);
+  sprite.drawString("VOLT:" + String(batteryVoltage) + "mV", GRAPH_X_POSITION + 140, 16); // voltage info
+  sprite.drawString("MODE:" + String(displayMode), GRAPH_X_POSITION + 140, 26); // graph mode
   
   // Push sprite to display
   sprite.pushSprite(0, 0);
