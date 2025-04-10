@@ -3,7 +3,7 @@
 An analog graph display for the LilyGO T-Display-S3 featuring:
 - Mode switching between simulated & real-time sensor graphing
 - NTP time synchronization
-- Battery detection & voltage monitoring
+- Power voltage monitoring (USB and battery)
 - Performance monitoring (FPS counter)
 - Statistics info with resetting
 
@@ -13,7 +13,7 @@ An analog graph display for the LilyGO T-Display-S3 featuring:
   - Simulation mode with random data generation
   - Real sensor mode reading from GPIO1 (ADC1 channel 0)
 - NTP time synchronization with automatic DST handling
-- Battery voltage monitoring with connection detection
+- Battery & USB voltage monitoring (whichever is connected)
 - Performance monitoring (FPS counter)
 - Min/Max/Current value tracking with timestamps
   - Values reset via the BOOT button
